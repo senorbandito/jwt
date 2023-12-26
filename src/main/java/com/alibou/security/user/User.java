@@ -1,21 +1,15 @@
 package com.alibou.security.user;
 
+import com.alibou.security.plan.Plan;
 import com.alibou.security.token.Token;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
@@ -26,11 +20,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "_user")
 public class User implements UserDetails {
 
+  @Getter
   @Id
   @GeneratedValue
   private Integer id;
+  @Getter
   private String firstname;
+  @Getter
   private String lastname;
+  @Getter
+  private String contact;
+  @Getter
+  private Date dob;
+  @Getter
   private String email;
   private String password;
 
@@ -39,6 +41,52 @@ public class User implements UserDetails {
 
   @OneToMany(mappedBy = "user")
   private List<Token> tokens;
+
+  @Getter
+  @ManyToOne
+  @JoinColumn(name = "plan_id")
+  private Plan plan;
+
+  public User(String firstname, String lastname, String contact, Date dob, String email, String password){
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.contact = contact;
+    this.dob = dob;
+    this.email = email;
+    this.password = password;
+  }
+
+  public void  setPlan(Plan plan) {
+    this.plan = plan;
+  }
+
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
+  }
+
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
+  }
+
+  public void setContact(String contact) {
+    this.contact = contact;
+  }
+
+  public void setDob(Date dob) {
+    this.dob = dob;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
