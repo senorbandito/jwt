@@ -25,6 +25,7 @@ import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
+
 public class AuthenticationService {
   private final UserRepository repository;
 
