@@ -12,6 +12,7 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class PlanController {
 
     private final PlanService planService;
